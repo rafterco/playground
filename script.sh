@@ -1,13 +1,19 @@
 #!/bin/bash
 
-echo "Executing script.sh"
+# Check if file path parameter is provided
+if [ $# -eq 0 ]; then
+  echo "File path not provided."
+  exit 1  # Failure
+fi
+
+file_path=$1
 
 # Check if the file exists
-if [ -f "file_to_transfer.txt" ]; then
-  echo "File exists."
+if [ -f "$file_path" ]; then
+  echo "File exists: $file_path"
 
   # Run another command before SFTP
-  ls -l file_to_transfer.txt
+  ls -l "$file_path"
 
   # Check the exit status of the previous command
   if [ $? -eq 0 ]; then
@@ -15,7 +21,7 @@ if [ -f "file_to_transfer.txt" ]; then
 
     # Attempt to SFTP the file
     sftp user@hostname <<EOF
-      put file_to_transfer.txt
+      put "$file_path"
       quit
 EOF
 
@@ -34,6 +40,6 @@ EOF
   fi
 
 else
-  echo "File does not exist."
+  echo "File does not exist: $file_path"
   exit 1  # Failure
 fi
