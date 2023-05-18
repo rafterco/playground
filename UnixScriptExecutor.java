@@ -7,11 +7,7 @@ public class UnixScriptExecutor {
     private static final int MAX_RETRIES = 3;
     private static final int RETRY_DELAY_MS = 5000;
 
-    public static void main(String[] args) {
-        String scriptPath = "/path/to/your/script.sh";
-        String filePath = "/path/to/your/file.txt";
-        String additionalFilePath = "/path/to/your/data.start";
-
+    public void executeScript(String scriptPath, String filePath) {
         int retryCount = 0;
         boolean executionSuccess = false;
 
@@ -40,7 +36,7 @@ public class UnixScriptExecutor {
                     executionSuccess = true;
 
                     // Attempt the additional SFTP operation
-                    boolean additionalSftpSuccess = executeSftp(additionalFilePath);
+                    boolean additionalSftpSuccess = executeSftp("/path/to/your/data.start");
                     if (additionalSftpSuccess) {
                         System.out.println("Additional SFTP successful.");
                     } else {
@@ -68,7 +64,7 @@ public class UnixScriptExecutor {
         }
     }
 
-    private static boolean executeSftp(String filePath) {
+    private boolean executeSftp(String filePath) {
         try {
             // Create a ProcessBuilder with the command to execute the SFTP operation
             ProcessBuilder processBuilder = new ProcessBuilder("sftp", "user@hostname");
