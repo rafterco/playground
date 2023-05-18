@@ -14,12 +14,15 @@ public class UnixScriptExecutorTest {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
+        // Create an instance of UnixScriptExecutor
+        UnixScriptExecutor executor = new UnixScriptExecutor();
+
         // Mock the script execution with a successful exit code
-        UnixScriptExecutor.MAX_RETRIES = 0;
-        UnixScriptExecutor.RETRY_DELAY_MS = 0;
+        executor.MAX_RETRIES = 0;
+        executor.RETRY_DELAY_MS = 0;
 
         // Execute the script
-        UnixScriptExecutor.main(new String[0]);
+        executor.executeScript("/path/to/your/script.sh", "/path/to/your/file.txt");
 
         // Restore System.out
         System.setOut(System.out);
@@ -37,13 +40,16 @@ public class UnixScriptExecutorTest {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
+        // Create an instance of UnixScriptExecutor
+        UnixScriptExecutor executor = new UnixScriptExecutor();
+
         // Mock the script execution with a failure exit code
-        UnixScriptExecutor.MAX_RETRIES = 0;
-        UnixScriptExecutor.RETRY_DELAY_MS = 0;
-        UnixScriptExecutor.executeSftp = (filePath) -> false;
+        executor.MAX_RETRIES = 0;
+        executor.RETRY_DELAY_MS = 0;
+        executor.executeSftp = (filePath) -> false;
 
         // Execute the script
-        UnixScriptExecutor.main(new String[0]);
+        executor.executeScript("/path/to/your/script.sh", "/path/to/your/file.txt");
 
         // Restore System.out
         System.setOut(System.out);
@@ -61,13 +67,16 @@ public class UnixScriptExecutorTest {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
+        // Create an instance of UnixScriptExecutor
+        UnixScriptExecutor executor = new UnixScriptExecutor();
+
         // Mock the script execution with failure on the first attempt and success on the second attempt
-        UnixScriptExecutor.MAX_RETRIES = 1;
-        UnixScriptExecutor.RETRY_DELAY_MS = 0;
-        UnixScriptExecutor.executeSftp = (filePath) -> filePath.equals("/path/to/your/file.txt");
+        executor.MAX_RETRIES = 1;
+        executor.RETRY_DELAY_MS = 0;
+        executor.executeSftp = (filePath) -> filePath.equals("/path/to/your/file.txt");
 
         // Execute the script
-        UnixScriptExecutor.main(new String[0]);
+        executor.executeScript("/path/to/your/script.sh", "/path/to/your/file.txt");
 
         // Restore System.out
         System.setOut(System.out);
@@ -86,13 +95,16 @@ public class UnixScriptExecutorTest {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
+        // Create an instance of UnixScriptExecutor
+        UnixScriptExecutor executor = new UnixScriptExecutor();
+
         // Mock the script execution with failure on all attempts
-        UnixScriptExecutor.MAX_RETRIES = 2;
-        UnixScriptExecutor.RETRY_DELAY_MS = 0;
-        UnixScriptExecutor.executeSftp = (filePath) -> false;
+        executor.MAX_RETRIES = 2;
+        executor.RETRY_DELAY_MS = 0;
+        executor.executeSftp = (filePath) -> false;
 
         // Execute the script
-        UnixScriptExecutor.main(new String[0]);
+        executor.executeScript("/path/to/your/script.sh", "/path/to/your/file.txt");
 
         // Restore System.out
         System.setOut(System.out);
@@ -108,15 +120,18 @@ public class UnixScriptExecutorTest {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
+        // Create an instance of UnixScriptExecutor
+        UnixScriptExecutor executor = new UnixScriptExecutor();
+
         // Redirect System.in to provide input to the SFTP command
         ByteArrayInputStream inputStream = new ByteArrayInputStream("put /path/to/your/data.start\nquit\n".getBytes());
         System.setIn(inputStream);
 
         // Mock the SFTP command with a successful exit code
-        UnixScriptExecutor.executeSftp = (filePath) -> true;
+        executor.executeSftp = (filePath) -> true;
 
         // Execute the SFTP operation
-        boolean success = UnixScriptExecutor.executeSftp("/path/to/your/data.start");
+        boolean success = executor.executeSftp("/path/to/your/data.start");
 
         // Restore System.out and System.in
         System.setOut(System.out);
@@ -136,11 +151,14 @@ public class UnixScriptExecutorTest {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setOut(new PrintStream(outputStream));
 
+        // Create an instance of UnixScriptExecutor
+        UnixScriptExecutor executor = new UnixScriptExecutor();
+
         // Mock the SFTP command with a failure exit code
-        UnixScriptExecutor.executeSftp = (filePath) -> false;
+        executor.executeSftp = (filePath) -> false;
 
         // Execute the SFTP operation
-        boolean success = UnixScriptExecutor.executeSftp("/path/to/your/data.start");
+        boolean success = executor.executeSftp("/path/to/your/data.start");
 
         // Restore System.out
         System.setOut(System.out);
