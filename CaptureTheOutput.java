@@ -28,3 +28,19 @@ Check if the sftp command is available: Ensure that the sftp command is installe
 Capture the error output: To obtain more information about the error, you can redirect the error stream of the process and read the error messages. Here's an example of how you can do it:
 
 */
+
+//1 
+String privateKeyFile = "/path/to/private_key";
+File file = new File(privateKeyFile);
+if (file.exists()) {
+    System.out.println("Private key file exists.");
+} else {
+    System.out.println("Private key file does not exist. Please check the file path.");
+}
+
+//1a. 
+On Unix/Linux: chmod 400 /path/to/private_key
+
+//2 
+sftp 
+
